@@ -15,9 +15,9 @@ for (var i in db.currentOP().inprog) {
         if (memProg.hasOwnProperty('secs_running')) {
             var useTime  = memProg.secs_running;
             if (useTime >= _DEF_TIME) {
-                db.killOp(opid);
+                // db.killOp(opid);
                 j++;
-                print("killed "+j+ memProg.ns + " "+ memProg.query+" Query Operation!");
+                print("killed "+j+ memProg.ns + " "+ JSON.stringify(memProg.query)+" Query Operation!");
             }
         }
     }
