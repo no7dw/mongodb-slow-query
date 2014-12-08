@@ -17,7 +17,7 @@ for (var i in db.currentOP().inprog) {
             if (useTime >= _DEF_TIME) {
                 db.killOp(opid);
                 j++;
-                print("killed "+j+" Query Operation!");
+                print("killed "+j+ memProg.ns + " "+ memProg.query+" Query Operation!");
             }
         }
     }
