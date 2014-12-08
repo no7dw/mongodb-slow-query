@@ -22,4 +22,4 @@ for (var i in db.currentOP().inprog) {
         }
     }
 }
-//./mongo 10.15.107.154:30000 < ./killslow.js
+//mongo localhost:37017 < ./killslow.js
