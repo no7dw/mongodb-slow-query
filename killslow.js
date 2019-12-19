@@ -1,5 +1,4 @@
-var j=0;
-var _DEF_TIME=10; //设置慢查询时间
+var LONG_TIME=10; //slow query secs
 for (var i in db.currentOP().inprog) {
     var op = "";
     var opid;
@@ -8,16 +7,18 @@ for (var i in db.currentOP().inprog) {
         continue;
     }
     memProg=db.currentOP().inprog[i];
+    
     op = memProg.op;
+    cmd = JSON.stringify(memProg.command);
     opid = memProg.opid;
-    print(i);
-    if (op=="query") {
+   
+    if (op=="query"|| op=="getmore" || (op== "command"  && cmd.indexOf("aggregate") )) { 
         if (memProg.hasOwnProperty('secs_running')) {
             var useTime  = memProg.secs_running;
-            if (useTime >= _DEF_TIME) {
-                // db.killOp(opid);
-                j++;
-                print("killed "+j+ memProg.ns + " "+ JSON.stringify(memProg.query)+" Query Operation!");
+            if (useTime >= LONG_TIME) {
+                db.killOp(opid);
+                
+                print("killed "+ memProg.ns + " "+  op +" Operation!");
             }
         }
     }
