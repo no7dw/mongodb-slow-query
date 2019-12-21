@@ -7,12 +7,14 @@ for (var i in db.currentOP().inprog) {
         continue;
     }
     memProg=db.currentOP().inprog[i];
+    if(!memProg) continue;
     
     op = memProg.op;
+    ns = memProg.ns;
     cmd = JSON.stringify(memProg.command);
     opid = memProg.opid;
    
-    if (op=="query"|| op=="getmore" || (op== "command"  && cmd.indexOf("aggregate") )) { 
+    if (op=="query"|| (op=="getmore" && ns != "local.oplog.rs" )|| (op== "command" )) { 
         if (memProg.hasOwnProperty('secs_running')) {
             var useTime  = memProg.secs_running;
             if (useTime >= LONG_TIME) {
