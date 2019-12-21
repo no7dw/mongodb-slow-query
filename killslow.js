@@ -10,11 +10,10 @@ for (var i in db.currentOP().inprog) {
     if(!memProg) continue;
     
     op = memProg.op;
-    ns = memProg.ns;
     cmd = JSON.stringify(memProg.command);
     opid = memProg.opid;
    
-    if (op=="query"|| (op=="getmore" && ns != "local.oplog.rs" )|| (op== "command" )) { 
+    if (op=="query"|| op=="getmore" || (op== "command"  && cmd.indexOf("aggregate") )) { 
         if (memProg.hasOwnProperty('secs_running')) {
             var useTime  = memProg.secs_running;
             if (useTime >= LONG_TIME) {
@@ -25,4 +24,5 @@ for (var i in db.currentOP().inprog) {
         }
     }
 }
+
 //mongo localhost:37017 < ./killslow.js
